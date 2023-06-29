@@ -10,7 +10,7 @@ import os
 import pygame
 import random
 import numpy as np
-os.chdir('./Project2')
+#os.chdir('./Project2')
 
 """
 SETTINGS
@@ -137,9 +137,9 @@ def game():
         
         #Teleport
         rand1 = random.randint(0,5000)
-        if (np.absolute(rand1 - seed[0]) % 300) == 0:
+        if (np.absolute(rand1 - seed[0]) % 400) == 0:
             yellowp.x = rand1 % WID
-        if (np.absolute(rand1 - seed[1]) % 300) == 0:
+        if (np.absolute(rand1 - seed[1]) % 400) == 0:
             yellowp.y = rand1 % HEI
 
         # Winning Conditions
