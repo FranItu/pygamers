@@ -214,8 +214,5 @@ if __name__ == "__main__":
 
 
 ##### THANK YOU FOR PLAYING
-<<<<<<< HEAD
 # Hola
-=======
-# Hola
->>>>>>> c38adc53c2ddefc9cca46a66d3ce8e8559a43b1c
+#
