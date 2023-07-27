@@ -12,6 +12,7 @@ import random
 import numpy as np
 #os.chdir('./Project2')
 
+
 """
 SETTINGS
 """
@@ -59,6 +60,18 @@ BG = pygame.transform.scale(BG_IMAGE, (WID, HEI))
 GAME
 """
 #Window Update
+def draw_start():
+    WIN.fill(NEGRO)
+    font1 = pygame.font.SysFont('castellar', 48)
+    font2 = pygame.font.SysFont('castellar', 32)
+    title = font1.render('Project 2', True, BLANCO)
+    start_button = font2.render('Start', True, (0, 128, 255))
+    quit_button = font2.render('Quit', True, (255, 0, 0))
+    WIN.blit(title, (WID/2 - title.get_width()/2, HEI/4 - title.get_height()/2))
+    WIN.blit(start_button, (WID/2 - start_button.get_width()/2, 3*HEI/5 - start_button.get_height()/2))
+    WIN.blit(quit_button, (WID/2 - quit_button.get_width()/2, 4*HEI/5 - quit_button.get_height()/2))
+    pygame.display.update()
+
 def draw_window(c1, c2, c3):
     WIN.fill((c1,c2,c3))
     WIN.blit(BG, (0,0))
@@ -77,6 +90,9 @@ def draw_window2(p1, p2, p3):
 
 #Main Game
 def game():
+    #Variable de Juego
+    game_state = "Inicio"
+
     #Atributos Jugadores
     redp = pygame.Rect(150, 100, PW, PH)
     yellowp = pygame.Rect(325, 100, PW, PH)
@@ -85,9 +101,25 @@ def game():
     #Reloj
     clock = pygame.time.Clock()
 
-    #Bucle de Juego
-    run = True
-    while run:
+    #Inicio
+    while game_state == "Inicio":
+        draw_start()
+        pressedkey = pygame.key.get_pressed()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                print("GAME OVER")
+                game_state = "Gameover"
+
+        if pressedkey[pygame.K_ESCAPE]:
+            print("GAME OVER")
+            game_state = "Gameover"
+        
+        if pressedkey[pygame.K_RETURN] or pressedkey[pygame.K_SPACE]:
+            print("Starting game...")
+            game_state = "Playing"
+
+    #Juego
+    while game_state == "Playing":
         clock.tick(FPS)
         desp = 2 #desplazamiento
 
@@ -96,7 +128,7 @@ def game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 print("GAME OVER")
-                run = False
+                game_state = "Gameover"
 
         # Progress Conditions
         ## Player 1
@@ -145,18 +177,18 @@ def game():
         # Winning Conditions
         if ((redp.x >= yellowp.x-3) and (redp.x <= yellowp.x+3) and (redp.y >= yellowp.y-3) and (redp.y <= yellowp.y+3)):
             print("Winner: Player 1")
-            run=False
+            game_state = "VictoryP1"
             continue
 
         if ((bluep.x >= yellowp.x-3) and (bluep.x <= yellowp.x+3) and (bluep.y >= yellowp.y-3) and (bluep.y <= yellowp.y+3)):
             print("Winner: Player 2")
-            run=False
+            game_state = "VictoryP2"
             continue
 
         #Losing condition
         if ((yellowp.x < 0) or (yellowp.x > WID) or (yellowp.y < 0) or (yellowp.y > HEI)):
             print("Game Over! Mew scaped.")
-            run = False
+            game_state = "Defeat"
             continue
 
         #if (redp.y >= 255 or yellowp.y >= 255 or bluep.y >= 255):
@@ -170,9 +202,12 @@ def game():
 
     pygame.quit()
 
-#Proper Running
+# Proper Running
 if __name__ == "__main__":
+    pygame.init()
+    pygame.font.init()
     game()
 
 
 ##### THANK YOU FOR PLAYING
+# Hola
